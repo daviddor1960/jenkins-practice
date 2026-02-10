@@ -23,6 +23,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the app'
+                sh "echo 'Developer: ${env.MYNAME}' >> build_info.txt"
                 sh 'ls -la' // Lists all files in the current workspace
             }
 
