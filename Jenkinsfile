@@ -60,6 +60,7 @@ pipeline {
         success {
             echo 'This runs only if the pipeline succeeds'
             echo 'cleaning up workspace...'
+            archiveArtifacts artifacts: 'build_info.txt', followSymlinks: false
         }
         failure {
             echo 'This runs only if the pipeline fails'
