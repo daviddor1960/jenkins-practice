@@ -81,7 +81,7 @@ pipeline {
         stage('Push to Github'){
             steps {
                 // This matches the ID we created in Jenkins
-                withCredentials([usernamePassword(credentialsId: 'GitHub_Token1', 
+                withCredentials([usernamePassword(credentialsId: 'GitHub_PUSH1', 
                                 passwordVariable: 'blah', 
                                 usernameVariable: 'blah2')]) {
                     
