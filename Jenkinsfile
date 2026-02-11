@@ -35,10 +35,10 @@ pipeline {
         stage('Run Script') {
             steps {
                 // 1. make the script executable!
-                sh 'chmod +x ./script.sh'
+                sh 'chmod +x ./scripts/script.sh'
 
                 //2. Run the script.sh and pass the VERSIION param
-                sh "./script.sh ${params.VERSION}"
+                sh "./scripts/script.sh ${params.VERSION}"
             }
         }
         /// Parallel tests: https://dev.to/vandana_babshetti_91df8eb/parallel-stages-with-declarative-pipeline-in-jenkins-cicd-11fk
