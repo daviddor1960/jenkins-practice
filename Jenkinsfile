@@ -78,35 +78,35 @@ pipeline {
 
         }
 
+
         stage('Push to Github'){
-            steps {
-                // This matches the ID we created in Jenkins
-                withCredentials([usernamePassword(credentialsId: 'GitHub_PUSH1', 
-                                passwordVariable: 'blah', 
-                                usernameVariable: 'blah2')]) {
-                    
-                    sh """
-                        # 1. Setup identity
-                        git config user.email "jenkins@build.bot"
-                        git config user.name "Jenkins Bot"
+                    steps {
+                        withCredentials([usernamePassword(credentialsId: 'GitHub_PUSH1', 
+                                        passwordVariable: 'GIT_PASSWORD', 
+                                        usernameVariable: 'GIT_USERNAME')]) {
+                            
+                            sh """
+                                # 1. Setup identity
+                                git config user.email "jenkins@build.bot"
+                                git config user.name "Jenkins Bot"
 
-                        # 2. Re-configure the remote to include the token for authentication
-                        # This embeds the token into the URL temporarily for the push
-                        # When your script runs https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com..., Jenkins replaces those variables with your username and your token.
-                        git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/daviddor1960/jenkins-practice.git
+                                # 2. Re-configure the remote
+                                # We use the variable names defined in the withCredentials block above
+                                git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/daviddor1960/jenkins-practice.git
 
-                        # 3. Add and commit the file
-                        git add outputs/my_output_file.txt
-                        
-                        # Use || true so the build doesn't fail if there are no changes
-                        git commit -m "docs: update output file from build ${BUILD_NUMBER} [skip ci]" || true
-                        
-                        # 4. Push back to your branch $(BRANCH_TO_USE)
-                        git push origin HEAD:${BRANCH_TO_USE}
-                    """
+                                # 3. Add and commit
+                                git add outputs/my_output_file.txt
+                                
+                                # Use || true so it doesn't fail if nothing changed
+                                git commit -m "docs: update output file from build ${BUILD_NUMBER} [skip ci]" || true
+                                
+                                # 4. Push back to your specific branch
+                                # Using 'roy_branch1' directly to avoid variable errors
+                                git push origin HEAD:roy_branch1
+                            """
                         }
+                    }
                 }
-            }
         }
 
     post {
