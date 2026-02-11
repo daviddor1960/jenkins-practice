@@ -16,6 +16,7 @@ pipeline {
     stages {
         stage('Initialize') {
             steps {
+                echo "Welcome ${params.USER_NAME} to the awesome Jenkins pipeline!"
                 echo "Initializing pipeline for $PLANET is ready!"
                 echo "Initializing pipeline for ${env.PLANET} is ready!"
             }
