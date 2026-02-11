@@ -9,4 +9,11 @@ else
 fi
 
 # 2. Check/Create File
-echo "Current Date/Time: $(date)" >> "./outputs/my_output_file.txt"
+# Check if running inside Jenkins to grab the build number
+if [ -n "$BUILD_NUMBER" ]; then
+  # echo "Jenkins Build Number: #$BUILD_NUMBER"
+  echo "Current Date-Time: $(date), Jenkins Build Number: #$BUILD_NUMBER"  >> "./outputs/my_output_file.txt"
+else
+  #echo "Jenkins Build Number: Not running in Jenkins"
+  echo "Current Date/Time: $(date)" >> "./outputs/my_output_file.txt"
+fi
