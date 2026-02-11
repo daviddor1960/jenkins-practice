@@ -17,11 +17,11 @@ COMMIT_AUTHOR=$(git log -1 --format='%an <%ae>')
 if [ -n "$BUILD_NUMBER" ]; then
   # echo "Jenkins Build Number: #$BUILD_NUMBER"
   #echo "Current Date-Time: $(date), Jenkins Build Number: #$BUILD_NUMBER"  >> "./outputs/my_output_file.txt"
-  echo "Date-Time: $(date), Build: #$BUILD_NUMBER, Author: $COMMIT_AUTHOR" >> "./outputs/my_output_file.txt"
+  echo "Current Date-Time: $(date), Build: #$BUILD_NUMBER, Author: $COMMIT_AUTHOR" >> "./outputs/my_output_file.txt"
 
 else
   #echo "Jenkins Build Number: Not running in Jenkins"
   #echo "Current Date/Time: $(date)" >> "./outputs/my_output_file.txt"
-  echo "Date-Time: $(date), Author: $COMMIT_AUTHOR" >> "./outputs/my_output_file.txt"
+  echo "Current Date-Time: $(date), Author: $COMMIT_AUTHOR" >> "./outputs/my_output_file.txt"
 fi
 

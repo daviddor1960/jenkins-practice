@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         PLANET = 'EARTH'
-        MYNAME = 'Roy'
+        MY_DEVELOPER_NAME = 'Roy'
     }
 
     parameters {
@@ -17,16 +17,16 @@ pipeline {
     stages {
         stage('Initialize') {
             steps {
-                echo "Welcome ${params.USER_NAME} to the awesome Jenkins pipeline!"
+                echo "Welcome ${params.USER_NAME} to the awesome Jenkins pipeline!, You are using the branch ${params.BRANCH_TO_USE}"
+                echo "The current build number is ${env.BUILD_NUMBER}"
                 echo "Initializing pipeline for $PLANET is ready!"
-                echo "Initializing pipeline for ${env.PLANET} is ready!"
-            }
+                }
         }
 
         stage('Build') {
             steps {
                 echo 'Building the app'
-                sh "echo 'Developer: ${env.MYNAME}' >> build_info.txt"
+                sh "echo 'Developer: ${env.MY_DEVELOPER_NAME}' >> build_info.txt"
 
                 // creating outputs dir and output.txt file
                 sh 'chmod +x ./scripts/script_create_output_dir_file.sh' // make the script executable
@@ -70,15 +70,11 @@ pipeline {
                     steps{
                         echo 'Static code analysis is running...'
                          // error "Simulating failure"     /// this command forces the pipeline to stop and mark itself as FAILED
-
-
                     }
                 }
             }
 
         }
-
-
         stage('Push to Github'){
                     steps {
                         withCredentials([usernamePassword(credentialsId: 'GitHub_PUSH1', 
@@ -101,8 +97,7 @@ pipeline {
                                 git commit -m "docs: update output file from build ${BUILD_NUMBER} [skip ci]" || true
                                 
                                 # 4. Push back to your specific branch
-                                # Using 'roy_branch1' directly to avoid variable errors
-                                git push origin HEAD:roy_branch1
+                                git push origin HEAD:${params.BRANCH_TO_USE}
                             """
                         }
                     }
