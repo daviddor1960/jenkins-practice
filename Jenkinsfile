@@ -10,6 +10,7 @@ pipeline {
     parameters {
         string(name: 'VERSION', defaultValue: '1.0.0', description: 'Version to deploy')
         booleanParam(name: 'executeTests', defaultValue:'true', description: '')
+        string(name: 'USER_NAME', defaultValue: 'Guest', description: 'Who are you?')
     }
 
     stages {
