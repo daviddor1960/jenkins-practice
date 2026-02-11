@@ -62,14 +62,13 @@ pipeline {
                 stage('Static Code Analysis'){
                     steps{
                         echo 'Static code analysis is running...'
+                         // error "Simulating failure"     /// this command forces the pipeline to stop and mark itself as FAILED
+
+
                     }
                 }
             }
-            steps{
-                echo 'Running tests...'
-                /// this command forces the pipeline to stop and mark itself as FAILED
-                // error "Simulating failure"
-            }
+
         }
     }
 
