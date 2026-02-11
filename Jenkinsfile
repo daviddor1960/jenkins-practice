@@ -85,7 +85,7 @@ pipeline {
                                 passwordVariable: 'blah', 
                                 usernameVariable: 'blah2')]) {
                     
-                    sh '''
+                    sh """
                         # 1. Setup identity
                         git config user.email "jenkins@build.bot"
                         git config user.name "Jenkins Bot"
@@ -103,7 +103,7 @@ pipeline {
                         
                         # 4. Push back to your branch $(BRANCH_TO_USE)
                         git push origin HEAD:${BRANCH_TO_USE}
-                    '''
+                    """
                         }
                 }
             }
