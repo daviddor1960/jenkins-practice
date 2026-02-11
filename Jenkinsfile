@@ -26,11 +26,13 @@ pipeline {
             steps {
                 echo 'Building the app'
                 sh "echo 'Developer: ${env.MYNAME}' >> build_info.txt"
-                sh 'ls -la' // Lists all files in the current workspace
 
                 // creating outputs dir and output.txt file
                 sh 'chmod +x ./scripts/script_create_output_dir_file.sh' // make the script executable
                 sh './scripts/script_create_output_dir_file.sh' // run the script to create outputs dir and output.txt file
+
+                sh 'ls -la' // Lists all files in the current workspace
+
             }
 
 
