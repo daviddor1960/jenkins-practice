@@ -11,6 +11,7 @@ pipeline {
         string(name: 'VERSION', defaultValue: '1.0.0', description: 'Version to deploy')
         booleanParam(name: 'executeTests', defaultValue:'true', description: '')
         string(name: 'USER_NAME', defaultValue: 'Guest', description: 'Who are you?')
+        string(name: 'BRANCH_TO_USE', defaultValue: 'roy_branch1', description: 'Branch to use?')
     }
 
     stages {
@@ -75,6 +76,37 @@ pipeline {
                 }
             }
 
+        }
+
+        stage('Push to Github'){
+            steps {
+                // This matches the ID we created in Jenkins
+                withCredentials([usernamePassword(credentialsId: 'GitHub_Token1', 
+                                passwordVariable: 'blah', 
+                                usernameVariable: 'blah2')]) {
+                    
+                    sh '''
+                        # 1. Setup identity
+                        git config user.email "jenkins@build.bot"
+                        git config user.name "Jenkins Bot"
+
+                        # 2. Re-configure the remote to include the token for authentication
+                        # This embeds the token into the URL temporarily for the push
+                        # When your script runs https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com..., Jenkins replaces those variables with your username and your token.
+                        git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/daviddor1960/jenkins-practice.git
+
+                        # 3. Add and commit the file
+                        git add outputs/my_output_file.txt
+                        
+                        # Use || true so the build doesn't fail if there are no changes
+                        git commit -m "docs: update output file from build ${BUILD_NUMBER} [skip ci]" || true
+                        
+                        # 4. Push back to your branch $(BRANCH_TO_USE)
+                        git push origin HEAD:${BRANCH_TO_USE}
+                    '''
+                }
+            }
+}
         }
     }
 
